@@ -1,18 +1,20 @@
-import React, {useContext} from 'react';
-import { GlobalContext } from '../context/GlobalState';
+import React, { useContext } from "react";
+import { GlobalContext } from "../context/GlobalState";
+
+import { LOCATORS } from "../../cypress/support/locators.ts";
 
 //Money formatter function
 function moneyFormatter(num) {
-  let p = num.toFixed(2).split('.');
+  let p = num.toFixed(2).split(".");
   return (
-    '$ ' +
+    "$ " +
     p[0]
-      .split('')
+      .split("")
       .reverse()
       .reduce(function (acc, num, i, orig) {
-        return num === '-' ? acc : num + (i && !(i % 3) ? ',' : '') + acc;
-      }, '') +
-    '.' +
+        return num === "-" ? acc : num + (i && !(i % 3) ? "," : "") + acc;
+      }, "") +
+    "." +
     p[1]
   );
 }
@@ -20,11 +22,21 @@ function moneyFormatter(num) {
 export const Transaction = ({ transaction }) => {
   const { deleteTransaction } = useContext(GlobalContext);
 
-  const sign = transaction.amount < 0 ? '-' : '+';
+  const sign = transaction.amount < 0 ? "-" : "+";
 
   return (
-    <li className={transaction.amount < 0 ? 'minus' : 'plus'}>
-      {transaction.text} <span>{sign}{moneyFormatter(transaction.amount)}</span><button onClick={() => deleteTransaction(transaction.id)} className="delete-btn">x</button>
+    <li className={transaction.amount < 0 ? "minus" : "plus"}>
+      {transaction.text}{" "}
+      <span>
+        {sign}
+        {moneyFormatter(transaction.amount)}
+      </span>
+      <button
+        onClick={() => deleteTransaction(transaction.id)}
+        className="delete-btn"
+      >
+        x
+      </button>
     </li>
-  )
-}
+  );
+};

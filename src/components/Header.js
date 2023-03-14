@@ -1,9 +1,6 @@
-import React from 'react'
+import React from "react";
+import { LOCATORS } from "../../cypress/support/locators.ts";
 
 export const Header = () => {
-  return (
-    <h2>
-      Expense Tracker
-    </h2>
-  )
-}
+  return <h2 test-id={LOCATORS.header}>Expense Tracker</h2>;
+};
