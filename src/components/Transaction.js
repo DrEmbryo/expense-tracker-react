@@ -34,6 +34,7 @@ export const Transaction = ({ transaction }) => {
       <button
         onClick={() => deleteTransaction(transaction.id)}
         className="delete-btn"
+        test-id={LOCATORS.history.remove}
       >
         x
       </button>

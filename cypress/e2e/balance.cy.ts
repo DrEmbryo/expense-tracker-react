@@ -113,3 +113,50 @@ describe("Decrease account balance", () => {
     );
   });
 });
+
+describe("Remove item from history", () => {
+  beforeEach(() => {
+    cy.visit("/");
+  });
+
+  it("user increase balance by 25 with test note then remove operation from history", () => {
+    const amount = "25";
+    const note = "test note";
+
+    cy.get(byTestId(LOCATORS.balance.value)).should("have.text", "$ 0.00");
+
+    cy.get(byTestId(LOCATORS.income.value))
+      .should("have.class", "plus")
+      .and("have.text", `$ 0.00`);
+
+    cy.get(byTestId(LOCATORS.newTransaction.note.note)).type(note);
+
+    cy.get(byTestId(LOCATORS.newTransaction.amount.amount)).type(amount);
+
+    cy.get(byTestId(LOCATORS.newTransaction.addTransaction)).click();
+
+    cy.get(byTestId(LOCATORS.history.list))
+      .children()
+      .should("have.class", "plus")
+      .and("have.text", `${note} +$ ${amount}.00x`);
+
+    cy.get(byTestId(LOCATORS.balance.value)).should(
+      "have.text",
+      `$ ${amount}.00`
+    );
+
+    cy.get(byTestId(LOCATORS.income.value))
+      .should("have.class", "plus")
+      .and("have.text", `$ ${amount}.00`);
+
+    cy.get(byTestId(LOCATORS.history.remove)).click();
+
+    cy.get(byTestId(LOCATORS.history.list)).children().should("have.length", 0);
+
+    cy.get(byTestId(LOCATORS.balance.value)).should("have.text", "$ 0.00");
+
+    cy.get(byTestId(LOCATORS.income.value))
+      .should("have.class", "plus")
+      .and("have.text", `$ 0.00`);
+  });
+});
